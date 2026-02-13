@@ -9,16 +9,19 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 
 class TestSmokeTest():
-  def setup_method(self, method):
-    self.driver = webdriver.Firefox()
-    self.vars = {}
+ def setup_method(self, method):
+   options = Options()
+   options.add_argument("--headless=new")
+   self.driver = webdriver.Chrome(options=options)
+   self.vars = {}
   
-  def teardown_method(self, method):
+ def teardown_method(self, method):
     self.driver.quit()
   
-  def test_adminPage(self):
+ def test_adminPage(self):
     self.driver.get("http://127.0.0.1:5500/teton/1.6/admin.html")
 
     username = self.driver.find_element(By.ID, "username")
@@ -38,7 +41,7 @@ class TestSmokeTest():
 
     assert "Invalid username and password." in self.driver.find_element(By.CLASS_NAME, "errorMessage").text
   
-  def test_directoryPage(self):
+ def test_directoryPage(self):
     self.driver.get("http://127.0.0.1:5500/teton/1.6/index.html")
     self.driver.set_window_size(1211, 693)
     self.driver.find_element(By.LINK_TEXT, "Directory").click()
@@ -47,7 +50,7 @@ class TestSmokeTest():
     self.driver.find_element(By.ID, "directory-list").click()
     assert self.driver.find_element(By.CSS_SELECTOR, ".gold-member:nth-child(9) > p:nth-child(2)").text == "Teton Turf and Tree"
   
-  def test_homePage(self):
+ def test_homePage(self):
   
     self.driver.get("http://127.0.0.1:5500/teton/1.6/index.html")
     self.driver.set_window_size(1382, 736)
@@ -64,7 +67,7 @@ class TestSmokeTest():
     assert len(elements) > 0
     self.driver.find_element(By.LINK_TEXT, "Join Us!").click()
   
-  def test_joinPage(self):
+ def test_joinPage(self):
     self.driver.get("http://127.0.0.1:5500/teton/1.6/index.html")
     self.driver.set_window_size(1325, 691)
     self.driver.find_element(By.LINK_TEXT, "Join").click()
