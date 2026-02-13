@@ -25,7 +25,7 @@ class TestSmokeTest():
     password = self.driver.find_element(By.ID, "password")
 
     username.clear()
-    username.send_keys("Incorrect")
+    username.send_keys("Incorrects")
 
     password.clear()
     password.send_keys("Incorrect")
